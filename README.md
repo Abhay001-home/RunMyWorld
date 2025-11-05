@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # RunAnywhere SDK - Simple Chat App
 
 A simple Android chat application demonstrating the RunAnywhere SDK for on-device AI inference.
@@ -129,3 +130,7 @@ Want to customize this app? Try:
 ## License
 
 This example app follows the license of the RunAnywhere SDK.
+=======
+# RunMyWorld
+Android app integrating RunAnywhere SDK for AI Agent execution.
+>>>>>>> 38c68564d69df3b2a9d3e63f7b8f38c642a4be09
