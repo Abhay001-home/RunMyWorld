@@ -1,136 +1,130 @@
-<<<<<<< HEAD
-# RunAnywhere SDK - Simple Chat App
+# 🌍 RunMyWorld — AI Agents That Execute Things for You
 
-A simple Android chat application demonstrating the RunAnywhere SDK for on-device AI inference.
+### 🚀 Overview
 
-## What This App Does
+**RunMyWorld** is an AI-powered automation platform that lets users create and manage intelligent **agents** — such as a Fitness Coach, Travel Planner, or Productivity Assistant — that can run tasks **locally or in the cloud**.
 
-This is a minimal example showing how to:
+This project is being developed as part of **VibeState ’25**, a week-long AI Vibeathon organized by **Singularity** in collaboration with **RunAnywhere** and **Firebender**.
 
-1. Initialize the RunAnywhere SDK
-2. Download AI models (LLMs)
-3. Load models into memory
-4. Run text generation with streaming responses
+---
 
-## Features
+### 💡 Project Vision
 
-- **Model Management**: Download and load AI models directly in the app
-- **Real-time Streaming**: See AI responses generate word-by-word
-- **Simple UI**: Clean Jetpack Compose interface
-- **On-Device AI**: All inference runs locally on your Android device
+We aim to build a **hybrid ecosystem** that combines a **Web Dashboard** (for creating and managing agents) and a **Mobile App** (that executes them using the **RunAnywhere SDK**).
 
-## Quick Start
+The goal is to demonstrate how autonomous AI agents can perform everyday tasks seamlessly across devices.
 
-### 1. Build and Run
+---
+
+### 🧩 Core Features
+
+* 🧠 **Custom AI Agents** – Create specialized agents with unique goals and personalities.
+* ⚡ **RunAnywhere SDK Integration** – Execute agent scripts either locally or via the cloud.
+* 🔄 **Web + Mobile Sync** – Real-time synchronization between dashboard and mobile app.
+* 🔔 **Activity Notifications** – Alerts for task completions or agent updates.
+* 🔒 **Secure Data Storage** – Encrypted local storage using AndroidX Security Crypto.
+
+---
+
+### 🛠️ Tech Stack
+
+| Layer              | Technology                     |
+| ------------------ | ------------------------------ |
+| Mobile Framework   | Jetpack Compose (Kotlin)       |
+| Backend AI Runtime | RunAnywhere SDK                |
+| API Gateway        | Firebender Enterprise Platform |
+| Networking         | Ktor, OkHttp                   |
+| Local DB           | Room Database                  |
+| Background Tasks   | WorkManager                    |
+| Security           | AndroidX Crypto                |
+
+---
+
+### ⚙️ Setup Guide
+
+#### 1️⃣ Clone the Repository
 
 ```bash
-./gradlew assembleDebug
-# Or open in Android Studio and click Run
+git clone https://github.com/AYUSH-KUMAR02/RunMyWorld.git
+cd RunMyWorld
 ```
 
-### 2. Download a Model
+#### 2️⃣ Open in Android Studio
 
-1. Launch the app
-2. Tap "Models" in the top bar
-3. Choose a model (we recommend starting with "SmolLM2 360M Q8_0" - only 119 MB)
-4. Tap "Download" and wait for it to complete
+* Use **Android Studio Hedgehog or newer**.
+* Open the `RunMyWorld` folder directly.
 
-### 3. Load the Model
+#### 3️⃣ Verify SDK Integration
 
-1. Once downloaded, tap "Load" on the model
-2. Wait for "Model loaded! Ready to chat." message
-
-### 4. Start Chatting!
-
-1. Type a message in the text field
-2. Tap "Send"
-3. Watch the AI response generate in real-time
-
-## Available Models
-
-The app comes pre-configured with two models:
-
-| Model | Size | Quality | Best For |
-|-------|------|---------|----------|
-| SmolLM2 360M Q8_0 | 119 MB | Basic | Testing, quick responses |
-| Qwen 2.5 0.5B Instruct Q6_K | 374 MB | Better | General conversations |
-
-## Technical Details
-
-### SDK Components Used
-
-- **RunAnywhere Core SDK**: Component architecture and model management
-- **LlamaCpp Module**: Optimized llama.cpp inference engine with 7 ARM64 variants
-- **Kotlin Coroutines**: For async operations and streaming
-
-### Architecture
+Check `app/libs/` for:
 
 ```
-MyApplication (initialization)
-    ↓
-ChatViewModel (state management)
-    ↓
-ChatScreen (UI layer)
+RunAnywhereKotlinSDK-release.aar
+runanywhere-llm-llamacpp-release.aar
 ```
 
-### Key Files
+If missing, copy them from the official Hackss base repo.
 
-- `MyApplication.kt` - SDK initialization and model registration
-- `ChatViewModel.kt` - Business logic and state management
-- `MainActivity.kt` - UI components and composables
+#### 4️⃣ Run the App
 
-## Requirements
+Click **▶ Run** in Android Studio.
+If everything is configured correctly, the app should build and open in your emulator.
 
-- Android 7.0 (API 24) or higher
-- ~200 MB free storage (for smallest model)
-- Internet connection (for downloading models)
+---
 
-## Troubleshooting
+### 🧱 Architecture Overview
 
-### Models not showing up
+```
+MainActivity.kt  → App Entry Point (Jetpack Compose)
+|
+|-- AgentListScreen.kt  → Displays available agents
+|-- AgentDetailScreen.kt → Run / Manage agent scripts
+|-- RunAnywhereClient    → Executes AI code
+|-- FirebenderSession    → Handles enterprise access
+|-- RoomDB               → Local storage for agent info
+```
 
-- Wait a few seconds for SDK initialization
-- Tap "Refresh" in the Models section
-- Check logcat for initialization errors
+---
 
-### Download fails
+### 🧑‍💻 Team RunMyWorld
 
-- Check internet connection
-- Ensure sufficient storage space
-- Verify INTERNET permission in AndroidManifest.xml
+| Name                  | Role                          | Responsibilities                            |
+| --------------------- | ----------------------------- | ------------------------------------------- |
+| **Ayush Kumar**       | Android Developer / Team Lead | Project setup, RunAnywhere SDK integration  |
+| **[Teammate 2 Name]** | Backend & SDK Engineer        | Firebender API, agent runtime logic         |
+| **[Teammate 3 Name]** | UI/UX Designer                | Compose UI design, user flows               |
+| **[Teammate 4 Name]** | Web Dashboard Developer       | Agent management dashboard, API integration |
 
-### App crashes during generation
+🫱 *Together, we’re building the future of personalized AI automation.*
 
-- Try the smaller model (SmolLM2 360M)
-- Close other apps to free memory
-- Check that `largeHeap="true"` is set in AndroidManifest.xml
+---
 
-### Generation is slow
+### 🧠 Event Info
 
-- This is normal for on-device inference
-- Smaller models run faster
-- Performance depends on device CPU
+**Hackathon:** VibeState ’25
+**Organizers:** Singularity x RunAnywhere x Firebender
+**Category:** AI / Automation / Cross-platform Agent Systems
+**Duration:** 1 Week
 
-## Next Steps
+---
 
-Want to customize this app? Try:
+### 📜 License
 
-1. **Add more models** - Edit `MyApplication.kt` → `registerModels()`
-2. **Customize UI** - Edit `MainActivity.kt` compose functions
-3. **Add system prompts** - Modify message format in `ChatViewModel.kt`
-4. **Persist chat history** - Add Room database or DataStore
-5. **Add model parameters** - Explore temperature, top-k, top-p settings
+This project is developed for **educational and hackathon purposes only**.
+All rights to RunAnywhere SDK and Firebender API belong to their respective owners.
 
-## Resources
+---
 
-- [Full Quick Start Guide](app/src/main/java/com/runanywhere/startup_hackathon20/QUICK_START_ANDROID.md)
-- [RunAnywhere SDK Repository](https://github.com/RunanywhereAI/runanywhere-sdks)
-- [SDK Documentation](https://github.com/RunanywhereAI/runanywhere-sdks/blob/main/CLAUDE.md)
+### 🌐 Useful Links
 
-## License
+* 🔗 [RunAnywhere SDK GitHub](https://github.com/RunanywhereAI/runanywhere-sdks)
+* 🔗 [Firebender Platform](https://firebender.ai/)
+* 🔗 [VibeState ’25 Discord](https://discord.gg/DCyf4MU7)
 
-This example app follows the license of the RunAnywhere SDK.
-=======
-# RunMyWorld
-Android app integrating RunAnywhere SDK for AI Agent execution.
->>>>>>> 38c68564d69df3b2a9d3e63f7b8f38c642a4be09
+---
+
+### ❤️ Acknowledgements
+
+Special thanks to the **RunAnywhere**, **Firebender**, and **Singularity** teams for organizing VibeState ’25 and providing the tools to build next-gen AI experiences.
+
+---
