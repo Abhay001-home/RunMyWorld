@@ -91,7 +91,7 @@ MainActivity.kt  → App Entry Point (Jetpack Compose)
 | Name                  | Role                          | Responsibilities                            |
 | --------------------- | ----------------------------- | ------------------------------------------- |
 | [**Ayush Kumar**](https://github.com/AYUSH-KUMAR02/)       | Android Developer / Team Lead | Project setup, RunAnywhere SDK integration  |
-| [**Abhay Verma**](https://github.com/Abhay001-home/)      | Backend & SDK Engineer        | Firebender API, agent runtime logic         |
+| [**Abhay Kumar Verma**](https://github.com/Abhay001-home/)      | Backend & SDK Engineer        | Firebender API, agent runtime logic         |
 | [**Kriti Dwivedi**](https://github.com/kriti-1-9/)     | UI/UX Designer                | Compose UI design, user flows               |
 | [**Deepanshu Singh**](https://github.com/Deep-2003/)   | Web Dashboard Developer       | Agent management dashboard, API integration |
 
