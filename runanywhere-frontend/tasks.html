@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Tasks - RunAnyWhere SDK</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: { extend: { colors: { primary: '#a78bfa', bg: '#0a0a0f', card: '#14141f', border: '#3a2a5e' } } }
+    };
+  </script>
+  <style>.hidden { display: none !important; }</style>
+  <script src="assets/js/auth.js"></script>
+  <script src="assets/js/script.js"></script>
+</head>
+<body class="bg-bg text-gray-100 min-h-screen flex">
+
+  <!-- SIDEBAR -->
+  <aside class="w-64 bg-card border-r border-border flex flex-col">
+    <div class="p-5 flex items-center gap-3">
+      <div class="text-3xl">Diamond</div>
+      <div><div class="font-bold text-lg">RunAnyWhereSDK</div></div>
+    </div>
+    <nav class="flex-1 px-4 space-y-1">
+      <a href="dashboard.html" class="nav-link w-full text-left py-2.5 px-4 rounded-lg hover:bg-primary/5 flex items-center gap-2">Dashboard</a>
+      <a href="tasks.html" class="nav-link w-full text-left py-2.5 px-4 rounded-lg bg-primary/10 text-primary font-medium flex items-center gap-2">Tasks</a>
+      <a href="devices.html" class="nav-link w-full text-left py-2.5 px-4 rounded-lg hover:bg-primary/5 flex items-center gap-2">Devices</a>
+      <a href="schedule.html" class="nav-link w-full text-left py-2.5 px-4 rounded-lg hover:bg-primary/5 flex items-center gap-2">Schedule</a>
+      <a href="settings.html" class="nav-link w-full text-left py-2.5 px-4 rounded-lg hover:bg-primary/5 flex items-center gap-2">Settings</a>
+    </nav>
+    <div class="p-4">
+      <a href="dashboard.html" class="w-full bg-primary hover:bg-primary-dark text-white font-medium py-2.5 rounded-lg transition inline-block text-center">+ New Task</a>
+    </div>
+    <div class="p-4 border-t border-border text-sm text-gray-400">
+      My PC • <span class="text-green-400">Online</span>
+    </div>
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 p-8">
+    <div class="flex justify-between items-center mb-6">
+      <h1 class="text-3xl font-bold">All Tasks</h1>
+      <button class="bg-primary hover:bg-primary-dark text-white px-5 py-2 rounded-lg font-medium">+ Add Task</button>
+    </div>
+
+    <div class="bg-card rounded-xl p-6 border border-border">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+        <div class="bg-gray-800 p-4 rounded-lg">
+          <div class="text-2xl font-bold text-primary">47</div>
+          <div class="text-sm text-gray-400">Total</div>
+        </div>
+        <div class="bg-gray-800 p-4 rounded-lg">
+          <div class="text-2xl font-bold text-yellow-400">12</div>
+          <div class="text-sm text-gray-400">Pending</div>
+        </div>
+        <div class="bg-gray-800 p-4 rounded-lg">
+          <div class="text-2xl font-bold text-green-400">35</div>
+          <div class="text-sm text-gray-400">Completed</div>
+        </div>
+      </div>
+
+      <div class="overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead class="border-b border-border">
+            <tr>
+              <th class="text-left py-3">Task</th>
+              <th class="text-left py-3">Type</th>
+              <th class="text-left py-3">Due</th>
+              <th class="text-left py-3">Device</th>
+              <th class="text-left py-3">Status</th>
+            </tr>
+          </thead>
+          <tbody class="divide-y divide-border/50">
+            <tr>
+              <td class="py-3">Send Weekly Report</td>
+              <td><span class="tag tag-message px-2 py-1 rounded text-xs">Message</span></td>
+              <td>Today, 3:00 PM</td>
+              <td>Laptop</td>
+              <td><span class="status status-pending px-2 py-1 rounded text-xs bg-yellow-900 text-yellow-300">Pending</span></td>
+            </tr>
+            <tr>
+              <td class="py-3">Backup Database</td>
+              <td><span class="tag tag-automation px-2 py-1 rounded text-xs">Automation</span></td>
+              <td>Yesterday</td>
+              <td>Server</td>
+              <td><span class="status status-completed px-2 py-1 rounded text-xs bg-green-900 text-green-300">Completed</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    document.querySelectorAll('.nav-link').forEach(link => {
+      if (link.getAttribute('href') === location.pathname.split('/').pop()) {
+        link.classList.add('bg-primary/10', 'text-primary', 'font-medium');
+        link.classList.remove('hover:bg-primary/5');
+      }
+    });
+  </script>
+</body>
+</html>

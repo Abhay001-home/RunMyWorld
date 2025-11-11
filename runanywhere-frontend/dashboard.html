@@ -1,0 +1,492 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>RunMyWorld • AI That Runs Anywhere</title>
+    <meta name="description" content="Deploy, manage, and scale AI agents across any device with zero friction." />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --card: #14142a;
+            --text: #e2e8f0;
+            --text-light: #94a3b8;
+            --primary: #a78bfa;
+            --primary-dark: #8b5cf6;
+            --accent: #667eea;
+            --border: #3a2a5e;
+            --glow: rgba(167, 139, 250, 0.3);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 76px;
+            background: rgba(10, 10, 15, 0.85);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border-bottom: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 5%;
+            z-index: 1000;
+            transition: all 0.4s ease;
+        }
+        .navbar.scrolled {
+            background: rgba(10, 10, 15, 0.98);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            height: 68px;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--primary);
+            letter-spacing: -0.5px;
+        }
+        .logo span { color: #fff; }
+
+        .nav-links {
+            margin-left: auto;
+            display: flex;
+            gap: 32px;
+            align-items: center;
+        }
+        .nav-links a {
+            color: #cbd5e1;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 15px;
+            position: relative;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: var(--primary); }
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--primary);
+            transition: all 0.3s;
+            transform: translateX(-50%);
+        }
+        .nav-links a:hover::after,
+        .nav-links a.active::after { width: 100%; }
+
+        .nav-btn {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            padding: 10px 22px;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .nav-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px var(--glow);
+        }
+
+        /* Mobile Menu */
+        .menu-toggle {
+            display: none;
+            font-size: 24px;
+            background: none;
+            border: none;
+            color: white;
+            cursor: pointer;
+        }
+        @media (max-width: 992px) {
+            .nav-links { 
+                position: fixed;
+                top: 76px; left: 0; right: 0;
+                background: rgba(10, 10, 15, 0.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 2rem 5%;
+                gap: 20px;
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.4s ease;
+            }
+            .nav-links.open {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+            .menu-toggle { display: block; margin-left: auto; }
+        }
+
+        /* Hero */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 5%;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 70%, rgba(167, 139, 250, 0.2), transparent 50%),
+                        radial-gradient(circle at 70% 30%, rgba(102, 126, 234, 0.15), transparent 50%);
+            animation: pulse 20s infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; }
+            50% { opacity: 1; }
+        }
+
+        .hero-content {
+            max-width: 1000px;
+            z-index: 2;
+        }
+        .hero h1 {
+            font-size: clamp(42px, 8vw, 72px);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, #c4b5fd, #a78bfa, #8b5cf6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .hero p {
+            font-size: 20px;
+            color: var(--text-light);
+            max-width: 720px;
+            margin: 0 auto 40px;
+        }
+        .cta-buttons {
+            display: flex;
+            gap: 18px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+        .btn-primary, .btn-secondary {
+            padding: 16px 36px;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 17px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            border: none;
+            box-shadow: 0 10px 30px var(--glow);
+        }
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px var(--glow);
+        }
+        .btn-secondary {
+            background: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+        .btn-secondary:hover {
+            background: rgba(167, 139, 250, 0.15);
+            transform: translateY(-4px);
+        }
+
+        /* Sections */
+        section { padding: 120px 5%; }
+        .container { max-width: 1280px; margin: 0 auto; }
+        .section-title {
+            text-align: center;
+            font-size: 42px;
+            font-weight: 700;
+            margin-bottom: 70px;
+            background: linear-gradient(135deg, #a78bfa, #c4b5fd);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Features */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 32px;
+        }
+        .feature-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 40px 30px;
+            text-align: center;
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            transform: scaleX(0);
+            transition: transform 0.4s;
+        }
+        .feature-card:hover::before { transform: scaleX(1); }
+        .feature-card:hover {
+            transform: translateY(-16px);
+            border-color: var(--primary);
+            box-shadow: 0 25px 50px rgba(167, 139, 250, 0.25);
+        }
+        .feature-icon {
+            font-size: 56px;
+            margin-bottom: 24px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        /* Team */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 32px;
+            margin-top: 20px;
+        }
+        .team-member {
+            text-align: center;
+            transition: transform 0.3s;
+        }
+        .team-member:hover { transform: translateY(-10px); }
+        .member-avatar {
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            margin: 0 auto 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            font-weight: bold;
+            color: white;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+
+        /* CTA & Footer */
+        .cta {
+            background: linear-gradient(135deg, #1a0d2e, #2a1b4d);
+            text-align: center;
+        }
+        .footer {
+            background: #0f0f1a;
+            border-top: 1px solid var(--border);
+            padding: 80px 5% 40px;
+        }
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        .footer-col h3 { color: var(--primary); margin-bottom: 20px; }
+        .footer-col a { color: var(--text-light); text-decoration: none; font-size: 15px; }
+        .footer-col a:hover { color: var(--primary); }
+    </style>
+    <script src="assets/js/auth.js"></script>
+    <script src="assets/js/script.js"></script>
+</head>
+<body>
+
+    <!-- Navigation -->
+    <nav class="navbar" id="navbar">
+        <div class="logo">Run<span>MyWorld</span></div>
+        <button class="menu-toggle" aria-label="Toggle menu">Menu</button>
+        <div class="nav-links" id="navLinks">
+            <a href="index.html" class="active">Home</a>
+            <a href="login.html" class="auth-link">Login</a>
+            <a href="signup.html" class="auth-link">Signup</a>
+            <a href="dashboard.html" class="protected">Dashboard</a>
+            <a href="tasks.html" class="protected">Tasks</a>
+            <a href="schedule.html" class="protected">Schedule</a>
+            <a href="devices.html" class="protected">Devices</a>
+            <a href="profile.html" class="protected">Profile</a>
+            <a href="settings.html" class="protected">Settings</a>
+            <a href="#" onclick="logout()" class="protected">Logout</a>
+            <button class="nav-btn auth-link">Get Started</button>
+        </div>
+    </nav>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>AI That Runs <span style="background: linear-gradient(135deg,#f472b6,#ec4899);-webkit-background-clip:text;-webkit-text-fill-color:transparent;">Anywhere</span></h1>
+            <p>Deploy autonomous AI agents across cloud, edge, and mobile devices. Zero setup. Real-time sync. Built for the future.</p>
+            <div class="cta-buttons">
+                <button class="btn-primary" onclick="window.location.href='signup.html'">Start Free Trial</button>
+                <button class="btn-secondary" onclick="document.getElementById('features').scrollIntoView({behavior:'smooth'})">Explore Features</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features -->
+    <section class="features" id="features">
+        <div class="container">
+            <h2 class="section-title">Why Developers Love Us</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">Cloud</div>
+                    <h3>Hybrid Execution</h3>
+                    <p>Run agents locally or in the cloud — automatically switch based on connectivity.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">Mobile</div>
+                    <h3>On-Device Intelligence</h3>
+                    <p>Native Android app with full offline support using RunAnywhere SDK.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">Sync</div>
+                    <h3>Real-Time Sync</h3>
+                    <p>Firebender-powered live sync between web dashboard and mobile.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">Secure</div>
+                    <h3>Encrypted Storage</h3>
+                    <p>AndroidX Crypto + Room DB keeps your agents safe.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">Schedule</div>
+                    <h3>Smart Scheduling</h3>
+                    <p>Trigger agents on time, location, or events.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">API</div>
+                    <h3>Open API</h3>
+                    <p>Integrate with any tool via REST + WebSockets.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Team -->
+    <section class="team" id="team">
+        <div class="container">
+            <h2 class="section-title">Built by Passionate Humans</h2>
+            <div class="team-grid">
+                <div class="team-member">
+                    <div class="member-avatar">D</div>
+                    <div class="member-name">Deepanshu Singh</div>
+                    <div class="member-role">Project Lead • Frontend</div>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar" style="background: linear-gradient(135deg,#10b981,#34d399)">A</div>
+                    <div class="member-name">Ayush Kumar</div>
+                    <div class="member-role">Android • SDK Integration</div>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar" style="background: linear-gradient(135deg,#ec4899,#f472b6)">K</div>
+                    <div class="member-name">Kriti Dwivedi</div>
+                    <div class="member-role">UI/UX Designer</div>
+                </div>
+                <div class="team-member">
+                    <div class="member-avatar" style="background: linear-gradient(135deg,#f59e0b,#fbbf24)">Ab</div>
+                    <div class="member-name">Abhay Kumar Verma</div>
+                    <div class="member-role">Backend • Firebender</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="container">
+            <h2>Join the Future of Autonomous AI</h2>
+            <p>No credit card required • 14-day free trial • Cancel anytime</p>
+            <button class="btn-primary" style="font-size:18px;padding:18px 42px;" onclick="window.location.href='signup.html'">
+                Get Started — It's Free
+            </button>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-col">
+                    <h3>RunMyWorld</h3>
+                    <p style="color:#94a3b8;font-size:14px;">Autonomous AI agents for everyone.</p>
+                </div>
+                <div class="footer-col">
+                    <h3>Product</h3>
+                    <ul><li><a href="#features">Features</a></li><li><a href="#">Docs</a></li><li><a href="#">API</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Company</h3>
+                    <ul><li><a href="#">About</a></li><li><a href="#">Blog</a></li><li><a href="#">Contact</a></li></ul>
+                </div>
+                <div class="footer-col">
+                    <h3>Legal</h3>
+                    <ul><li><a href="#">Privacy</a></li><li><a href="#">Terms</a></li></ul>
+                </div>
+            </div>
+            <div style="text-align:center;padding-top:30px;border-top:1px solid var(--border);color:#64748b;font-size:14px;">
+                © 2025 RunMyWorld. Made with passion for VibeState '25.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Navbar scroll + mobile menu
+        const navbar = document.getElementById('navbar');
+        const navLinks = document.getElementById('navLinks');
+        const menuToggle = document.querySelector('.menu-toggle');
+
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+        });
+
+        menuToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('open');
+        });
+
+        // Active link highlighting
+        document.querySelectorAll('.nav-links a[href]').forEach(link => {
+            if (link.href === location.href) link.classList.add('active');
+        });
+
+        // Auth protection
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('authToken');
+            document.querySelectorAll('.protected').forEach(el => {
+                el.style.display = token ? 'block' : 'none';
+            });
+            document.querySelectorAll('.auth-link').forEach(el => {
+                el.style.display = token ? 'none' : 'block';
+            });
+        });
+
+        function logout() {
+            localStorage.removeItem('authToken');
+            location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
